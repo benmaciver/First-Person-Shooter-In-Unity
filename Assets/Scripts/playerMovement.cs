@@ -6,26 +6,32 @@ using System;
 
 public class playerMovement : MonoBehaviour
 {
-    public float speed = 5f; // Adjust the speed as needed
-    public Transform cameraTransform;
-    public Quaternion cameraRotation;
+    public float speed; // Adjust the speed as needed
 
 
+    private Transform cameraTransform;
+    private Quaternion cameraRotation;
     private Rigidbody rb;
-
+    private Camera cam;
+    private CameraController camControl;
+    private GameController gameController;
 
     public float RaycastDown;
-    private float jumpForce = 5f;
+    public float jumpForce;
     private AudioSource audio;
     private bool isRunning;
     private Vector3 startPos;
        
     private void Start()
     {
-
+        cam = Camera.main;
+        cameraTransform=cam.transform;
+        cameraRotation = cameraTransform.rotation;
         rb = GetComponent<Rigidbody>();
         audio = GetComponent<AudioSource>();
         startPos = transform.position;
+        camControl = cam.GetComponent<CameraController>();
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
 
     }
@@ -56,7 +62,12 @@ public class playerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }  
+        }
+        /*
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            sprint();
+        else if (Input.GetKeyUp(KeyCode.LeftShift)) 
+            stopSprint();
             /*
         if (!IsGrounded()
             isRunning = false;
@@ -70,10 +81,14 @@ public class playerMovement : MonoBehaviour
 
 
     }
-    bool IsGrounded()
+    private void OnCollisionEnter(Collision collision)
     {
-        //placeholder that only works in sample scene
-        return transform.position.y <= 1;
+        if (collision.collider.tag == "Barrel")
+        {
+            gameController.gameOver();
+        }
+    
     }
+
 
 }

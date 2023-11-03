@@ -10,6 +10,7 @@ public class gun : MonoBehaviour
     public int magCapacity;
     public AnimationClip shoot;
     public AnimationClip reload;
+    public AnimationClip sprint;
     public float FireCooldown;
     public KeyCode fireButton;
     public KeyCode reloadButton;
@@ -29,11 +30,13 @@ public class gun : MonoBehaviour
     private RawImage crosshair;
     private AudioSource audio;
     private GameObject lightInstance;
+    private GameObject player;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         audio = GetComponent<AudioSource>();
 
 
@@ -84,7 +87,7 @@ public class gun : MonoBehaviour
             }
         }
         currentCooldown -= Time.deltaTime;
-        if (crosshair.transform.localScale.x > 1f)
+        if (crosshair.transform.localScale.x > 0.5f)
             crosshair.transform.localScale -= new Vector3(0.01f, 0.01f);
 
     }
@@ -106,6 +109,8 @@ public class gun : MonoBehaviour
         {
             if (hit.collider.gameObject.tag == "Terrain") 
                 Instantiate(bulletImpact, hit.point,Quaternion.LookRotation(hit.normal));
+            if (hit.collider.gameObject.tag == "Target")
+                Destroy(hit.collider.gameObject);
             if (hit.rigidbody != null)
                 hit.rigidbody.AddForce(-hit.normal* impactForce);//objects stagger on impact
 
@@ -146,6 +151,7 @@ public class gun : MonoBehaviour
 
         return new Vector3 (randomX, randomY);
     }
+
     
 
 }

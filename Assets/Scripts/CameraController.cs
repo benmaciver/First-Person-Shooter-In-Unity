@@ -26,8 +26,11 @@ public class CameraController : MonoBehaviour
         float currentXRotation = transform.rotation.eulerAngles.x;//gets curent rotation on the x axis
         currentXRotation = Mathf.Clamp(currentXRotation, -360, 360f); //restricts the x rotation from esxceeding 360 degrees beaause the it starts acting very funky
         transform.rotation = Quaternion.Euler(currentXRotation, transform.rotation.eulerAngles.y, 0f);// sets the cameras rotation but within the clamped limits set
-
+       
 
 
     }
+
+
+
 }

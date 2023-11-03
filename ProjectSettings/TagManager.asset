@@ -10,6 +10,8 @@ TagManager:
   - Metal
   - ExplosiveBarrel
   - Terrain
+  - Invisible Wall
+  - Barrel
   layers:
   - Default
   - TransparentFX
