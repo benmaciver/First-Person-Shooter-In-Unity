@@ -1852,7 +1852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44378274cd2766e48ae5ca3b37ab2480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 75
+  speed: 30
   health: 100
   healthUI: {fileID: 1686726323}
   RaycastDown: 5
