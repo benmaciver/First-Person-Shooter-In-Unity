@@ -12,6 +12,8 @@ TagManager:
   - Terrain
   - Invisible Wall
   - Barrel
+  - FxTemporaire
+  - Enemy
   layers:
   - Default
   - TransparentFX

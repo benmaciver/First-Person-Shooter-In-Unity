@@ -22,6 +22,7 @@ public class gun : MonoBehaviour
     public AudioClip emptyAudio;
     public GameObject light;
     public int impactForce;
+    public float damage;
 
 
     private Animation anim;
@@ -111,6 +112,8 @@ public class gun : MonoBehaviour
                 Instantiate(bulletImpact, hit.point,Quaternion.LookRotation(hit.normal));
             if (hit.collider.gameObject.tag == "Target")
                 Destroy(hit.collider.gameObject);
+            if (hit.collider.gameObject.tag == "Enemy")
+                hit.collider.gameObject.GetComponent<EnemyController>().takeDamage(damage);
             if (hit.rigidbody != null)
                 hit.rigidbody.AddForce(-hit.normal* impactForce);//objects stagger on impact
 
