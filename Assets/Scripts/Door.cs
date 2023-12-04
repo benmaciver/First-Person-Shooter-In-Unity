@@ -5,6 +5,7 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     public List<GameObject> Targets;
+    public GameObject doorOpenNoise;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,13 @@ public class Door : MonoBehaviour
         if (Targets.Count == 0)
         {
             
-            Destroy(gameObject);
+            OpenDoor();
         }
+        
     }
+    void OpenDoor(){
+        Instantiate(doorOpenNoise);
+        Destroy(gameObject);
+    }
+    
 }

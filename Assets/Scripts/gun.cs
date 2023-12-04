@@ -52,7 +52,7 @@ public class Gun : Weapon
 
         SetAnimationSpeed("Shoot", shoot.length / FireCooldown);
     }
-
+ 
     private void Update()
     {
         if (!muzzleFlash.isPlaying)
@@ -92,6 +92,7 @@ public class Gun : Weapon
             audio.Play();
             currentCooldown = FireCooldown;
         }
+        
     }
 
     private void Fire()
@@ -145,7 +146,7 @@ public class Gun : Weapon
         if (hit.collider.gameObject.CompareTag("Target"))
             Destroy(hit.collider.gameObject);
         if (hit.collider.gameObject.CompareTag("Enemy"))
-            hit.collider.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
+            hit.collider.gameObject.GetComponent<GameObjectController>().TakeDamage(damage);
         if (hit.rigidbody != null)
             hit.rigidbody.AddForce(-hit.normal * impactForce);
     }

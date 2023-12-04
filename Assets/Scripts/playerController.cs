@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, GameObjectController
 {
     public float speed;
     public float health = 100;
