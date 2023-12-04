@@ -1,103 +1,107 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System;
 
-
-public class playerController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    public float speed; // Adjust the speed as needed
-    public float health =100;
+    public float speed;
+    public float health = 100;
     public TMP_Text healthUI;
+    public float RaycastDown;
+    public float jumpForce;
 
     private Transform cameraTransform;
-    private Quaternion cameraRotation;
     private Rigidbody rb;
     private Camera cam;
     private CameraController camControl;
     private GameController gameController;
-
-    public float RaycastDown;
-    public float jumpForce;
     private AudioSource audio;
-    private bool isRunning;
-    private Vector3 startPos;
-       
+    private Animation camAnim;
+
     private void Start()
     {
-        cam = Camera.main;
-        cameraTransform=cam.transform;
-        cameraRotation = cameraTransform.rotation;
-        rb = GetComponent<Rigidbody>();
-        audio = GetComponent<AudioSource>();
-        startPos = transform.position;
-        camControl = cam.GetComponent<CameraController>();
-        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-
-
+        InitializeComponents();
     }
 
-
-    void Update()
+    private void FixedUpdate()
     {
-        healthUI.text = health.ToString();
-        if (startPos != transform.position) 
-            isRunning = true;
-        else isRunning = false;
-        startPos = transform.position;
+        HandleMovementInput();
+    }
 
-        // Get input from WASD keys
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+    private void Update()
+    {
+        UpdateUI();
 
-        // Get the camera's forward direction without vertical component
-        Vector3 cameraForward = Vector3.Scale(cameraTransform.forward, new Vector3(1, 0, 1)).normalized;
-
-        // Calculate movement direction based on camera and input
-        Vector3 movement = (cameraForward * verticalInput + cameraTransform.right * horizontalInput) * speed * Time.deltaTime;
-
-        // Apply the movement to the player
-        rb.MovePosition(transform.position + movement);
-
-        // Get spacebar input
-        
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Jump();
         }
 
-        if (health <=0)
-            gameController.gameOver();
-        /*
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-            sprint();
-        else if (Input.GetKeyUp(KeyCode.LeftShift)) 
-            stopSprint();
-            /*
-        if (!IsGrounded()
-            isRunning = false;
-        if (isRunning && !audio.isPlaying )
-            audio.Play();
-        
-        else if (!isRunning && audio.isPlaying)
-            audio.Stop();
-        */
-
-
-
+        CheckHealth();
     }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "Barrel")
+        if (collision.collider.CompareTag("Barrel"))
         {
             gameController.gameOver();
         }
-    
     }
-    public void takeDamage(float damage){
+
+    public void TakeDamage(float damage)
+    {
         health -= damage;
     }
 
+    private void InitializeComponents()
+    {
+        cam = Camera.main;
+        cameraTransform = cam.transform;
+        rb = GetComponent<Rigidbody>();
+        audio = GetComponent<AudioSource>();
+        camControl = cam.GetComponent<CameraController>();
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        camAnim = cam.GetComponent<Animation>();
+    }
 
+    private void HandleMovementInput()
+    {
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        if ((horizontalInput != 0 || verticalInput != 0) && IsGrounded())
+        {
+            camAnim.Play();
+        }
+        else
+        {
+            camAnim.Stop();
+        }
+
+        Vector3 cameraForward = Vector3.Scale(cameraTransform.forward, new Vector3(1, 0, 1)).normalized;
+        Vector3 movement = (cameraForward * verticalInput + cameraTransform.right * horizontalInput) * speed * Time.fixedDeltaTime;
+        rb.MovePosition(transform.position + movement);
+    }
+
+    private void Jump()
+    {
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    private void UpdateUI()
+    {
+        healthUI.text = health.ToString();
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, RaycastDown);
+    }
+
+    private void CheckHealth()
+    {
+        if (health <= 0)
+        {
+            gameController.gameOver();
+        }
+    }
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 493268962619616553}
   - component: {fileID: 4496888528377934364}
+  - component: {fileID: 7596648860425572750}
   m_Layer: 8
   m_Name: Muzzle Light
   m_TagString: Untagged
@@ -94,3 +95,16 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &7596648860425572750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7244813099679815038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8fa8343ad5df6b41a4ffb39180ded22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyTime: 0.0666

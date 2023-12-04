@@ -54,9 +54,9 @@ public class EnemyController : MonoBehaviour
         
     }
     void damagePlayer(){
-        player.GetComponent<playerController>().takeDamage(damage);
+        player.GetComponent<PlayerController>().TakeDamage(damage);
     }
-    public void takeDamage(float damage){
+    public void TakeDamage(float damage){
         health-=damage;
     }
 }

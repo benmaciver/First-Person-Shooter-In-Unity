@@ -6,28 +6,28 @@ public class Barrel : MonoBehaviour
 {
     Rigidbody rb;
     public float lifeTime;
-    private float timeAlive;
+    private float spawnTime;
 
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        timeAlive = 0f;
+        spawnTime = Time.time;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         rb.AddForce(transform.forward *5f);
-        timeAlive += Time.deltaTime;
-        if (timeAlive > lifeTime)
+
+    }
+    void Update(){
+
+        if ((spawnTime + lifeTime) < Time.time)
         {
             Destroy(gameObject);
-        }
-        
-
-
+        }   
     }
     /*private void OnTriggerEnter(Collision collision)
     {
