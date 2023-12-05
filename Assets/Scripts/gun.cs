@@ -23,6 +23,7 @@ public class Gun : Weapon
     public int impactForce;
     public float damage;
     public float weaponRange = 100f;
+    public GameObject bulletImpactNoise;
 
     private Camera cam;
     private float currentCooldown;
@@ -102,7 +103,7 @@ public class Gun : Weapon
         muzzleFlash.Play();
         lightInstance = Instantiate(light, muzzleFlash.transform.position, muzzleFlash.transform.rotation);
         anim.Play("Shoot");
-        Kickback();
+        //Kickback();
         currentCooldown = FireCooldown;
         magSize--;
 
@@ -145,8 +146,10 @@ public class Gun : Weapon
             Instantiate(bulletImpact, hit.point, Quaternion.LookRotation(hit.normal));
         if (hit.collider.gameObject.CompareTag("Target"))
             Destroy(hit.collider.gameObject);
-        if (hit.collider.gameObject.CompareTag("Enemy"))
+        if (hit.collider.gameObject.CompareTag("Enemy")){
             hit.collider.gameObject.GetComponent<GameObjectController>().TakeDamage(damage);
+            Instantiate(bulletImpactNoise, hit.point, Quaternion.LookRotation(hit.normal));
+        }
         if (hit.rigidbody != null)
             hit.rigidbody.AddForce(-hit.normal * impactForce);
     }

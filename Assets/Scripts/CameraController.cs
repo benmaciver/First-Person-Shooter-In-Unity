@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        rotationSpeed = 5f;
         UpdatePosition();
 
         // Get mouse input

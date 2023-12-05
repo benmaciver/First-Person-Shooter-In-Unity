@@ -7,10 +7,12 @@ public class EnemySniper : MonoBehaviour, GameObjectController
     public float damage = 25f;  
     public float fireCooldown = 5f;
     public float health= 100;
+    public GameObject damageNumber;
     private float currentCooldown;
     private GameObject player;
     private Transform playerTransform;
     private AudioSource audioSource;
+
 
 
     // Start is called before the first frame update
@@ -57,6 +59,18 @@ public class EnemySniper : MonoBehaviour, GameObjectController
         player.GetComponent<PlayerController>().TakeDamage(damage);
     }
     public void TakeDamage(float damage){
+        if (damageNumber != null)
+            ShowFloatingText(damage);
         health-=damage;
     }
+    void ShowFloatingText(float damage)
+    {
+        var go = Instantiate(damageNumber, transform.position, Quaternion.identity);
+        go.GetComponent<TextMesh>().text = damage.ToString();
+
+        // Get the direction vector from the text to the player
+        Vector3 directionToPlayer = (player.transform.position - go.transform.position).normalized;
+
+    }
+
 }

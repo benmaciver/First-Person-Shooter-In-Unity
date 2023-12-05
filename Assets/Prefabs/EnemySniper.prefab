@@ -43,10 +43,10 @@ GameObject:
   - component: {fileID: 1275930725320501404}
   - component: {fileID: 2225578925807082770}
   - component: {fileID: 8466472907842767547}
-  - component: {fileID: 1496543332089691836}
   - component: {fileID: 5075942215321743082}
   - component: {fileID: 1589468672834644917}
   - component: {fileID: 7287419252096889155}
+  - component: {fileID: 8897156263697571008}
   m_Layer: 0
   m_Name: EnemySniper
   m_TagString: Enemy
@@ -146,21 +146,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1496543332089691836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4934081872430202536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 273478b3ead778b478f7542aab7197ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 25
-  fireCooldown: 5
-  health: 100
 --- !u!82 &5075942215321743082
 AudioSource:
   m_ObjectHideFlags: 0
@@ -297,6 +282,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
+--- !u!114 &8897156263697571008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4934081872430202536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b6d35cd98c687147932dd29c814b144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 25
+  fireCooldown: 5
+  health: 100
+  damageNumber: {fileID: 2235411653671176611, guid: 721aed29e6ce20449a21a168a3cd6aae, type: 3}
 --- !u!1 &7363678534658834397
 GameObject:
   m_ObjectHideFlags: 0

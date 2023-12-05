@@ -16,18 +16,27 @@ public class Door : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (GameObject target in Targets){
+        List<GameObject> targetsToRemove = new List<GameObject>();
+
+        foreach (GameObject target in Targets)
+        {
             if (target == null)
-                Targets.Remove(target);
-            
+            {
+                targetsToRemove.Add(target);
+            }
         }
+
+        foreach (GameObject targetToRemove in targetsToRemove)
+        {
+            Targets.Remove(targetToRemove);
+        }
+
         if (Targets.Count == 0)
         {
-            
             OpenDoor();
         }
-        
     }
+
     void OpenDoor(){
         Instantiate(doorOpenNoise);
         Destroy(gameObject);

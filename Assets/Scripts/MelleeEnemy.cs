@@ -8,11 +8,13 @@ public class MeleeEnemy : MonoBehaviour, GameObjectController
     public float attackRange = 3f;
     public float attackSpeed=0f;
     public float attackCooldown=0f;
+    public GameObject damageNumber;
     private NavMeshAgent agent;
     private GameObject player;
     private Animator anim;
     private bool dead;
     private AudioSource audio;
+    private MeshRenderer meshRenderer;
 
     void Start()
     {
@@ -22,6 +24,8 @@ public class MeleeEnemy : MonoBehaviour, GameObjectController
         audio = GetComponent<AudioSource>();
         agent.speed = 3.5f;
         dead = false;
+        meshRenderer = GetComponent<MeshRenderer>();
+        
     }
 
     void Update()
@@ -97,11 +101,16 @@ public class MeleeEnemy : MonoBehaviour, GameObjectController
         player.GetComponent<PlayerController>().TakeDamage(damage);
     }
 
-    public void TakeDamage(float damage)
-    {
-        health -= damage;
+    public void TakeDamage(float damage){
+        if (damageNumber != null)
+            ShowFloatingText(damage);
+        health-=damage;
     }
-
+    void ShowFloatingText(float damage)
+    {
+        var go = Instantiate(damageNumber, transform.position, Quaternion.identity);
+        go.GetComponent<TextMesh>().text = damage.ToString();
+    }
     void attackPlayer()
     {
         audio.Play();
