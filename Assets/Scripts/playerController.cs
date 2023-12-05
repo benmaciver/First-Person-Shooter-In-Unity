@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour, GameObjectController
 {
@@ -8,6 +9,7 @@ public class PlayerController : MonoBehaviour, GameObjectController
     public TMP_Text healthUI;
     public float RaycastDown;
     public float jumpForce;
+    public Image damageOverlay;
 
     private Transform cameraTransform;
     private Rigidbody rb;
@@ -37,6 +39,9 @@ public class PlayerController : MonoBehaviour, GameObjectController
         }
 
         CheckHealth();
+        updateDamageOverlay();
+        
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -50,6 +55,8 @@ public class PlayerController : MonoBehaviour, GameObjectController
     public void TakeDamage(float damage)
     {
         health -= damage;
+        damageOverlay.color = new Color(1f, 0, 0, 0.33f);
+
     }
 
     private void InitializeComponents()
@@ -71,10 +78,12 @@ public class PlayerController : MonoBehaviour, GameObjectController
         if ((horizontalInput != 0 || verticalInput != 0) && IsGrounded())
         {
             camAnim.Play();
+            
         }
         else
         {
             camAnim.Stop();
+            
         }
 
         Vector3 cameraForward = Vector3.Scale(cameraTransform.forward, new Vector3(1, 0, 1)).normalized;
@@ -103,5 +112,9 @@ public class PlayerController : MonoBehaviour, GameObjectController
         {
             gameController.gameOver();
         }
+    }
+    private void updateDamageOverlay(){
+        if ((damageOverlay.color.a > 0))
+            damageOverlay.color = new Color(1f, 0, 0, damageOverlay.color.a - 0.001f);
     }
 }
