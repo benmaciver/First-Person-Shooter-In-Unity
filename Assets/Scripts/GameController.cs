@@ -23,4 +23,8 @@ public class GameController : MonoBehaviour
         Debug.Log("dead");
         SceneManager.LoadScene(1);
     }
+    public void nextScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
 }

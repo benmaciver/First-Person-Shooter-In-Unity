@@ -12,6 +12,8 @@ public class EnemySniper : MonoBehaviour, GameObjectController
     private GameObject player;
     private Transform playerTransform;
     private AudioSource audioSource;
+    public GameObject[] itemDrops;
+
 
 
 
@@ -32,6 +34,7 @@ public class EnemySniper : MonoBehaviour, GameObjectController
     void Update()
     {
         if (health<=0){
+            DropItem();
             Destroy(gameObject);
         }
         if (currentCooldown<=0){
@@ -71,6 +74,14 @@ public class EnemySniper : MonoBehaviour, GameObjectController
         // Get the direction vector from the text to the player
         Vector3 directionToPlayer = (player.transform.position - go.transform.position).normalized;
 
+    }
+    public void DropItem(){
+        int chance = Random.Range(0, 100);
+        if (chance < 25)
+        {
+            int random = Random.Range(0, itemDrops.Length);
+            Instantiate(itemDrops[random], transform.position, Quaternion.identity);
+        }
     }
 
 }

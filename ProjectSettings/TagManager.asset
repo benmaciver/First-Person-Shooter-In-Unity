@@ -16,6 +16,10 @@ TagManager:
   - Enemy
   - Fire
   - Door
+  - Gun
+  - Inventory
+  - Platform
+  - Portal
   layers:
   - Default
   - TransparentFX

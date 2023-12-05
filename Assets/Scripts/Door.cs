@@ -33,8 +33,10 @@ public class Door : MonoBehaviour
 
         if (Targets.Count == 0)
         {
+            Debug.Log("Open Door");
             OpenDoor();
         }
+        //Debug.Log(Targets.Count);
     }
 
     void OpenDoor(){

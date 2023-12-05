@@ -9,8 +9,8 @@ public class changeColour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //AddComponent<Material>();
-        //GetComponent<Material>().color = color;
+        AddComponent<Material>();
+        GetComponent<Material>().color = color;
     }
 
     private void AddComponent<T>()

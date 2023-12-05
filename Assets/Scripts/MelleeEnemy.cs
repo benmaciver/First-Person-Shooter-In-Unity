@@ -9,6 +9,8 @@ public class MeleeEnemy : MonoBehaviour, GameObjectController
     public float attackSpeed=0f;
     public float attackCooldown=0f;
     public GameObject damageNumber;
+    public GameObject[] itemDrops;
+
     private NavMeshAgent agent;
     private GameObject player;
     private Animator anim;
@@ -42,7 +44,7 @@ public class MeleeEnemy : MonoBehaviour, GameObjectController
         }
         else
         {
-            HandleDeadState();
+            //HandleDeadState();
         }
     }
 
@@ -77,6 +79,8 @@ public class MeleeEnemy : MonoBehaviour, GameObjectController
 
     void HandleDeath()
     {
+        audio.Play();
+        DropItem();
         anim.SetBool("Dead", true);
         dead = true;
         anim.SetBool("Attacking", false);
@@ -87,6 +91,7 @@ public class MeleeEnemy : MonoBehaviour, GameObjectController
 
     void HandleDeadState()
     {
+        
         agent.isStopped = true;
         anim.SetBool("Dead", false);
     }
@@ -115,5 +120,13 @@ public class MeleeEnemy : MonoBehaviour, GameObjectController
     {
         audio.Play();
         player.GetComponent<PlayerController>().TakeDamage(damage);
+    }
+    public void DropItem(){
+        int chance = Random.Range(0, 100);
+        if (chance < 25)
+        {
+            int random = Random.Range(0, itemDrops.Length);
+            Instantiate(itemDrops[random], transform.position+new Vector3(0,1), Quaternion.identity);
+        }
     }
 }

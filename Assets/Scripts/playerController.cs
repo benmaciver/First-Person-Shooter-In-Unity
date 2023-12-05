@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour, GameObjectController
     public float RaycastDown;
     public float jumpForce;
     public Image damageOverlay;
+    public GameObject damageNoise;
 
     private Transform cameraTransform;
     private Rigidbody rb;
@@ -46,9 +47,13 @@ public class PlayerController : MonoBehaviour, GameObjectController
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Barrel"))
+        if (collision.collider.CompareTag("Platform"))
         {
-            gameController.gameOver();
+            collision.collider.GetComponent<Animation>().Stop();
+        }
+        if (collision.collider.CompareTag("Portal"))
+        {
+            gameController.nextScene();
         }
     }
 
@@ -56,6 +61,7 @@ public class PlayerController : MonoBehaviour, GameObjectController
     {
         health -= damage;
         damageOverlay.color = new Color(1f, 0, 0, 0.33f);
+        Instantiate(damageNoise);
 
     }
 
@@ -74,15 +80,18 @@ public class PlayerController : MonoBehaviour, GameObjectController
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-
-        if ((horizontalInput != 0 || verticalInput != 0) && IsGrounded())
+        if ((horizontalInput != 0 || verticalInput != 0) && IsGrounded() )
         {
-            camAnim.Play();
+            if (camAnim.isPlaying == false)
+                camAnim.Play();
+            if (audio.isPlaying == false)
+                audio.Play();
             
         }
         else
         {
             camAnim.Stop();
+            audio.Stop();
             
         }
 

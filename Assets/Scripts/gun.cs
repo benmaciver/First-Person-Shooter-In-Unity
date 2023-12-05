@@ -31,6 +31,9 @@ public class Gun : Weapon
     private AudioSource audio;
     private GameObject lightInstance;
     private GameObject player;
+    private float originalDamage;
+    private float instantKillDuration = 10f;
+    private bool isInstantKillActive = false;
 
     private void Start()
     {
@@ -52,6 +55,8 @@ public class Gun : Weapon
         AddAnimationClip("Shoot", shoot);
 
         SetAnimationSpeed("Shoot", shoot.length / FireCooldown);
+
+        originalDamage = damage;
     }
  
     private void Update()
@@ -120,7 +125,11 @@ public class Gun : Weapon
 
     private void Kickback()
     {
-        int val = Random.value < 0.5 ? -1 : 1;
+        float val;
+        if (Random.value < 0.5)
+            val = -1;
+        else val = 1;
+
 
         Quaternion targetRotationX = Quaternion.Euler(-(recoil / 100), 0, 0);
         Quaternion targetRotationY = Quaternion.Euler(0, val, 0);
@@ -173,5 +182,17 @@ public class Gun : Weapon
     private void AddAnimationClip(string clipName, AnimationClip clip)
     {
         anim.AddClip(clip, clipName);
+    }
+    public void InstantKill()
+    {
+    damage = 999999;
+    isInstantKillActive = true;
+    Invoke("DisableInstantKill", instantKillDuration);
+    }
+
+    private void DisableInstantKill()
+    {
+        damage = originalDamage;
+        isInstantKillActive = false;
     }
 }
